@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Jason Chen' }],
   verification: {
+    google: 'x-Ps8VLlEAkGWIIsYJ3koLh4IDpwvz2-nL4QVCMtVA4',
     other: {
       'msvalidate.01': '334AD38D1048CA468EE60121B2617001',
     },
@@ -56,6 +57,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
       <head>
+        {/* Google Search Console Verification Tag */}
+        <meta name="google-site-verification" content="x-Ps8VLlEAkGWIIsYJ3koLh4IDpwvz2-nL4QVCMtVA4" />
+
         {/* Bing Webmaster Verification Tag */}
         <meta name="msvalidate.01" content="334AD38D1048CA468EE60121B2617001" />
 

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { submitToIndexNow } from '@/lib/indexnow';
 
 export async function POST(req: Request) {
   try {
@@ -48,6 +49,12 @@ export async function POST(req: Request) {
         faqsJson: faqsJson || '[]',
       },
     });
+
+    // Automatically trigger IndexNow API ping for search engine instant indexing
+    if (post.status === 'published') {
+      const baseUrl = process.env.NEXTAUTH_URL || 'https://remoteworklab.com';
+      submitToIndexNow([`${baseUrl}/blog/${post.slug}`]);
+    }
 
     return NextResponse.json({ success: true, post });
   } catch (error: any) {
