@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: remoteworklab_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:./dev.db
+      - NEXTAUTH_SECRET=remoteworklab-super-secret-key-change-in-production-12345
+      - NEXTAUTH_URL=http://localhost:3000
+      - ADMIN_EMAIL=admin@remoteworklab.com
+      - ADMIN_PASSWORD=adminpassword123
+    volumes:
+      # Mount SQLite database file directory for persistent storage
+      - sqlite_data:/app/prisma
+
+volumes:
+  sqlite_data:
+    driver: local

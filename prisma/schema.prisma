@@ -1,0 +1,91 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Author {
+  id        String   @id @default(cuid())
+  name      String
+  bio       String
+  avatar    String
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  posts       Post[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id              String             @id @default(cuid())
+  slug            String             @unique
+  title           String
+  seoTitle        String?
+  metaDescription String?
+  seoDescription  String?
+  content         String
+  excerpt         String
+  coverImage      String
+  status          String             @default("published") // 'draft' | 'published'
+  publishedAt     DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  isReview        Boolean            @default(false)
+  faqsJson        String?            // JSON string for FAQ list [{question, answer}]
+  
+  categoryId      String
+  category        Category           @relation(fields: [categoryId], references: [id])
+  
+  authorId        String
+  author          Author             @relation(fields: [authorId], references: [id])
+  
+  tags            Tag[]
+  products        AffiliateProduct[]
+}
+
+model AffiliateProduct {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  imageUrl    String
+  affiliateUrl String
+  price       String
+  prosJson    String   // JSON string of pros array ["pro1", "pro2"]
+  consJson    String   // JSON string of cons array ["con1", "con2"]
+  rating      Float    @default(5.0)
+  
+  postId      String?
+  post        Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
