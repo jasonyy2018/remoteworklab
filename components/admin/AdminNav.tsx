@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { LayoutDashboard, FileText, FolderTree, ShoppingBag, LogOut, Globe } from 'lucide-react';
+import { LayoutDashboard, FileText, FolderTree, ShoppingBag, Zap, LogOut, Globe } from 'lucide-react';
 
 export default function AdminNav() {
   const pathname = usePathname();
@@ -13,6 +13,7 @@ export default function AdminNav() {
     { name: 'Articles', href: '/admin/posts', icon: FileText },
     { name: 'Categories', href: '/admin/categories', icon: FolderTree },
     { name: 'Affiliate Products', href: '/admin/products', icon: ShoppingBag },
+    { name: 'IndexNow Tool', href: '/admin/indexnow', icon: Zap },
   ];
 
   return (
