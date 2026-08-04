@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     'Home Office Setup',
   ],
   authors: [{ name: 'Jason Chen' }],
+  verification: {
+    other: {
+      'msvalidate.01': '334AD38D1048CA468EE60121B2617001',
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -51,6 +56,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
       <head>
+        {/* Bing Webmaster Verification Tag */}
+        <meta name="msvalidate.01" content="334AD38D1048CA468EE60121B2617001" />
+
         {/* Matomo Analytics */}
         <Script
           id="matomo-analytics"
