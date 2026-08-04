@@ -35,20 +35,24 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy built artifacts & public assets
+# Copy built artifacts, public assets, and node_modules for CLI scripts
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/docker-entrypoint.sh ./docker-entrypoint.sh
 
 # Copy standalone output
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Set permissions for SQLite database volume mount
-RUN chown -R nextjs:nodejs /app/prisma
+# Set permissions for entrypoint and SQLite database volume mount
+RUN chmod +x /app/docker-entrypoint.sh
+RUN chown -R nextjs:nodejs /app/prisma /app/node_modules /app/docker-entrypoint.sh
 
 USER nextjs
 
 EXPOSE 3000
 
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["node", "server.js"]
