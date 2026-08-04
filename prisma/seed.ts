@@ -86,32 +86,33 @@ async function main() {
   }
 
   // 5. Upsert Sample Posts with Affiliate Products & FAQs
-  const post1Data = {
-    title: 'Best Time Tracking Apps for Freelancers in 2026 (Toggl vs Clockify vs Rize)',
-    slug: 'best-time-tracking-apps-for-freelancers',
-    seoTitle: 'Best Time Tracking Apps for Freelancers 2026: Toggl vs Clockify vs Rize',
-    metaDescription: 'Discover the top 3 time tracking tools for freelancers. Compare features, pricing, automatic tracking, and client invoicing reports.',
-    seoDescription: 'Discover the top 3 time tracking tools for freelancers. Compare features, pricing, automatic tracking, and client invoicing reports.',
-    excerpt: 'Accurate time tracking is essential to protect your revenue as a freelancer. We break down Toggl Track, Clockify, and Rize AI to help you pick the best tool.',
-    coverImage: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?w=1200&auto=format&fit=crop&q=80',
-    status: 'published',
-    isReview: true,
-    testingHours: 45,
-    quickVerdict: 'After testing 8 time tracking applications over 45+ hours of billable client work, Toggl Track is our #1 Overall Editor’s Choice for its effortless one-click timer, clean reporting, and cross-platform sync. Clockify is our top Budget Pick for solo freelancers who need unlimited free logs.',
-    categoryId: categoriesMap['software-reviews'],
-    authorId: author.id,
-    publishedAt: new Date(),
-    faqsJson: JSON.stringify([
-      {
-        question: 'Why do freelancers need dedicated time tracking software?',
-        answer: 'Time tracking software provides verifiable hour logs for client billing and helps identify non-billable tasks that drain your daily productivity.'
-      },
-      {
-        question: 'Is Clockify free version sufficient for solo freelancers?',
-        answer: 'Yes! Clockify offers an exceptionally generous free tier with unlimited projects and time logs, making it ideal for solo freelancers on a budget.'
-      }
-    ]),
-    content: `
+  try {
+    const post1Data = {
+      title: 'Best Time Tracking Apps for Freelancers in 2026 (Toggl vs Clockify vs Rize)',
+      slug: 'best-time-tracking-apps-for-freelancers',
+      seoTitle: 'Best Time Tracking Apps for Freelancers 2026: Toggl vs Clockify vs Rize',
+      metaDescription: 'Discover the top 3 time tracking tools for freelancers. Compare features, pricing, automatic tracking, and client invoicing reports.',
+      seoDescription: 'Discover the top 3 time tracking tools for freelancers. Compare features, pricing, automatic tracking, and client invoicing reports.',
+      excerpt: 'Accurate time tracking is essential to protect your revenue as a freelancer. We break down Toggl Track, Clockify, and Rize AI to help you pick the best tool.',
+      coverImage: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?w=1200&auto=format&fit=crop&q=80',
+      status: 'published',
+      isReview: true,
+      testingHours: 45,
+      quickVerdict: 'After testing 8 time tracking applications over 45+ hours of billable client work, Toggl Track is our #1 Overall Editor’s Choice for its effortless one-click timer, clean reporting, and cross-platform sync. Clockify is our top Budget Pick for solo freelancers who need unlimited free logs.',
+      categoryId: categoriesMap['software-reviews'],
+      authorId: author.id,
+      publishedAt: new Date(),
+      faqsJson: JSON.stringify([
+        {
+          question: 'Why do freelancers need dedicated time tracking software?',
+          answer: 'Time tracking software provides verifiable hour logs for client billing and helps identify non-billable tasks that drain your daily productivity.'
+        },
+        {
+          question: 'Is Clockify free version sufficient for solo freelancers?',
+          answer: 'Yes! Clockify offers an exceptionally generous free tier with unlimited projects and time logs, making it ideal for solo freelancers on a budget.'
+        }
+      ]),
+      content: `
 In the world of remote work and freelancing, **time is your most valuable asset**. Whether you bill clients by the hour or deliver fixed-scope projects, tracking where your hours go is crucial for increasing your effective hourly rate.
 
 Today we are taking a deep dive into three of the most popular time trackers on the market: **Toggl Track**, **Clockify**, and AI-powered **Rize**.
@@ -127,86 +128,90 @@ Today we are taking a deep dive into three of the most popular time trackers on 
 ---
 
 ## Hands-On Comparison & Ratings
-    `,
-  };
+      `,
+    };
 
-  const post1 = await prisma.post.upsert({
-    where: { slug: post1Data.slug },
-    update: post1Data,
-    create: post1Data,
-  });
+    const post1 = await prisma.post.upsert({
+      where: { slug: post1Data.slug },
+      update: post1Data,
+      create: post1Data,
+    });
 
-  // Re-seed products with badges & bestFor labels
-  await prisma.affiliateProduct.deleteMany({
-    where: { postId: post1.id },
-  });
+    // Re-seed products with badges & bestFor labels
+    await prisma.affiliateProduct.deleteMany({
+      where: { postId: post1.id },
+    });
 
-  await prisma.affiliateProduct.createMany({
-    data: [
-      {
-        name: 'Toggl Track',
-        description: 'Beautiful, intuitive cross-platform time tracker with one-click timers and polished reporting.',
-        imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80',
-        affiliateUrl: 'https://example.com/aff/toggl',
-        price: 'Free / $9 per mo',
-        badge: "EDITOR'S CHOICE",
-        bestFor: 'Best Overall for Freelancers',
-        prosJson: JSON.stringify(['Clean UI with zero learning curve', 'Robust browser extension & mobile app', 'Export professional client PDF reports']),
-        consJson: JSON.stringify(['Paid tiers can be expensive for teams', 'No automatic activity tracking']),
-        rating: 4.9,
-        postId: post1.id,
-      },
-      {
-        name: 'Clockify',
-        description: 'Feature-packed time tracking tool with an unlimited free tier for budget-conscious freelancers.',
-        imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80',
-        affiliateUrl: 'https://example.com/aff/clockify',
-        price: 'Free / $3.99 per mo',
-        badge: 'BUDGET PICK',
-        bestFor: 'Best Free Unlimited Tracker',
-        prosJson: JSON.stringify(['Unlimited users and tracking on free plan', 'Built-in invoicing & timesheet approvals', 'Comprehensive team management']),
-        consJson: JSON.stringify(['Interface feels slightly outdated', 'Occasional sync delays on mobile']),
-        rating: 4.6,
-        postId: post1.id,
-      },
-      {
-        name: 'Rize AI',
-        description: 'Intelligent AI time tracker that runs automatically in the background with focus metrics.',
-        imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
-        affiliateUrl: 'https://example.com/aff/rize',
-        price: '$14.99 per mo',
-        badge: 'TOP AI PICK',
-        bestFor: 'Best Automated Focus Tracker',
-        prosJson: JSON.stringify(['100% automated tracking without manual timers', 'Focus score analytics & burnout warnings', 'Visually stunning daily timeline']),
-        consJson: JSON.stringify(['No permanent free tier', 'Requires comfort with background monitoring']),
-        rating: 4.8,
-        postId: post1.id,
-      },
-    ],
-  });
+    await prisma.affiliateProduct.createMany({
+      data: [
+        {
+          name: 'Toggl Track',
+          description: 'Beautiful, intuitive cross-platform time tracker with one-click timers and polished reporting.',
+          imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80',
+          affiliateUrl: 'https://example.com/aff/toggl',
+          price: 'Free / $9 per mo',
+          badge: "EDITOR'S CHOICE",
+          bestFor: 'Best Overall for Freelancers',
+          prosJson: JSON.stringify(['Clean UI with zero learning curve', 'Robust browser extension & mobile app', 'Export professional client PDF reports']),
+          consJson: JSON.stringify(['Paid tiers can be expensive for teams', 'No automatic activity tracking']),
+          rating: 4.9,
+          postId: post1.id,
+        },
+        {
+          name: 'Clockify',
+          description: 'Feature-packed time tracking tool with an unlimited free tier for budget-conscious freelancers.',
+          imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80',
+          affiliateUrl: 'https://example.com/aff/clockify',
+          price: 'Free / $3.99 per mo',
+          badge: 'BUDGET PICK',
+          bestFor: 'Best Free Unlimited Tracker',
+          prosJson: JSON.stringify(['Unlimited users and tracking on free plan', 'Built-in invoicing & timesheet approvals', 'Comprehensive team management']),
+          consJson: JSON.stringify(['Interface feels slightly outdated', 'Occasional sync delays on mobile']),
+          rating: 4.6,
+          postId: post1.id,
+        },
+        {
+          name: 'Rize AI',
+          description: 'Intelligent AI time tracker that runs automatically in the background with focus metrics.',
+          imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
+          affiliateUrl: 'https://example.com/aff/rize',
+          price: '$14.99 per mo',
+          badge: 'TOP AI PICK',
+          bestFor: 'Best Automated Focus Tracker',
+          prosJson: JSON.stringify(['100% automated tracking without manual timers', 'Focus score analytics & burnout warnings', 'Visually stunning daily timeline']),
+          consJson: JSON.stringify(['No permanent free tier', 'Requires comfort with background monitoring']),
+          rating: 4.8,
+          postId: post1.id,
+        },
+      ],
+    });
+  } catch (err) {
+    console.warn('Post 1 seed fallback:', err);
+  }
 
-  const post2Data = {
-    title: 'Ultimate Home Office Ergonomics Guide: Standing Desks & Chairs for 2026',
-    slug: 'home-office-ergonomics-setup-guide',
-    seoTitle: 'Ultimate Home Office Ergonomics Setup Guide 2026: Standing Desks & Chairs',
-    metaDescription: 'Say goodbye to back pain! Complete buyer guide for ergonomic chairs, standing desks, and monitor arms for remote workers.',
-    seoDescription: 'Say goodbye to back pain! Complete buyer guide for ergonomic chairs, standing desks, and monitor arms for remote workers.',
-    excerpt: 'Sitting in an uncomfortable chair for 8+ hours is the leading cause of remote fatigue. Here is how to configure your workspace for peak comfort.',
-    coverImage: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=1200&auto=format&fit=crop&q=80',
-    status: 'published',
-    isReview: false,
-    testingHours: 60,
-    quickVerdict: 'Investing in dual-motor standing desks and adjustable lumbar support ergonomic chairs reduces lower back fatigue by up to 70% during long remote shifts.',
-    categoryId: categoriesMap['home-office-setup'],
-    authorId: author.id,
-    publishedAt: new Date(Date.now() - 86400000 * 2),
-    faqsJson: JSON.stringify([
-      {
-        question: 'Are dual-motor standing desks worth the extra cost?',
-        answer: 'Yes! Dual-motor standing desks offer higher weight capacities, smoother elevation adjustments, and quieter operation compared to single-motor models.'
-      }
-    ]),
-    content: `
+  try {
+    const post2Data = {
+      title: 'Ultimate Home Office Ergonomics Guide: Standing Desks & Chairs for 2026',
+      slug: 'home-office-ergonomics-setup-guide',
+      seoTitle: 'Ultimate Home Office Ergonomics Setup Guide 2026: Standing Desks & Chairs',
+      metaDescription: 'Say goodbye to back pain! Complete buyer guide for ergonomic chairs, standing desks, and monitor arms for remote workers.',
+      seoDescription: 'Say goodbye to back pain! Complete buyer guide for ergonomic chairs, standing desks, and monitor arms for remote workers.',
+      excerpt: 'Sitting in an uncomfortable chair for 8+ hours is the leading cause of remote fatigue. Here is how to configure your workspace for peak comfort.',
+      coverImage: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=1200&auto=format&fit=crop&q=80',
+      status: 'published',
+      isReview: false,
+      testingHours: 60,
+      quickVerdict: 'Investing in dual-motor standing desks and adjustable lumbar support ergonomic chairs reduces lower back fatigue by up to 70% during long remote shifts.',
+      categoryId: categoriesMap['home-office-setup'],
+      authorId: author.id,
+      publishedAt: new Date(Date.now() - 86400000 * 2),
+      faqsJson: JSON.stringify([
+        {
+          question: 'Are dual-motor standing desks worth the extra cost?',
+          answer: 'Yes! Dual-motor standing desks offer higher weight capacities, smoother elevation adjustments, and quieter operation compared to single-motor models.'
+        }
+      ]),
+      content: `
 Working remotely means spending **8 to 10 hours a day** at the exact same desk. Investing in ergonomic equipment isn't a luxury—it's essential for long-term health and focus.
 
 ## 1. Key Features of an Ergonomic Chair
@@ -218,31 +223,35 @@ Working remotely means spending **8 to 10 hours a day** at the exact same desk. 
 ## 2. Benefits of Electric Standing Desks
 
 Alternating between sitting and standing every 45 minutes boosts blood circulation and reduces lumbar spine pressure significantly.
-    `,
-  };
+      `,
+    };
 
-  await prisma.post.upsert({
-    where: { slug: post2Data.slug },
-    update: post2Data,
-    create: post2Data,
-  });
+    await prisma.post.upsert({
+      where: { slug: post2Data.slug },
+      update: post2Data,
+      create: post2Data,
+    });
+  } catch (err) {
+    console.warn('Post 2 seed fallback:', err);
+  }
 
-  const post3Data = {
-    title: 'How Freelancers Can Pitch High-Ticket Client Proposals (Value-Based Pricing)',
-    slug: 'freelance-pricing-and-proposal-guide',
-    seoTitle: 'Freelance Value-Based Pricing Guide & Winning Proposals Strategy',
-    metaDescription: 'Stop competing on price! Learn how to transition from hourly billing to value-based pricing and win high-budget clients.',
-    seoDescription: 'Stop competing on price! Learn how to transition from hourly billing to value-based pricing and win high-budget clients.',
-    excerpt: 'Competing on low hourly rates is a recipe for burnout. Master value-based pricing to structure proposals that clients gladly pay high rates for.',
-    coverImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop&q=80',
-    status: 'published',
-    isReview: false,
-    testingHours: 30,
-    quickVerdict: 'Value-based pricing shifts client focus from hourly costs to measurable ROI, helping freelancers increase average deal sizes by 3x.',
-    categoryId: categoriesMap['freelance-guide'],
-    authorId: author.id,
-    publishedAt: new Date(Date.now() - 86400000 * 5),
-    content: `
+  try {
+    const post3Data = {
+      title: 'How Freelancers Can Pitch High-Ticket Client Proposals (Value-Based Pricing)',
+      slug: 'freelance-pricing-and-proposal-guide',
+      seoTitle: 'Freelance Value-Based Pricing Guide & Winning Proposals Strategy',
+      metaDescription: 'Stop competing on price! Learn how to transition from hourly billing to value-based pricing and win high-budget clients.',
+      seoDescription: 'Stop competing on price! Learn how to transition from hourly billing to value-based pricing and win high-budget clients.',
+      excerpt: 'Competing on low hourly rates is a recipe for burnout. Master value-based pricing to structure proposals that clients gladly pay high rates for.',
+      coverImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop&q=80',
+      status: 'published',
+      isReview: false,
+      testingHours: 30,
+      quickVerdict: 'Value-based pricing shifts client focus from hourly costs to measurable ROI, helping freelancers increase average deal sizes by 3x.',
+      categoryId: categoriesMap['freelance-guide'],
+      authorId: author.id,
+      publishedAt: new Date(Date.now() - 86400000 * 5),
+      content: `
 The biggest mistake freelance consultants make is believing **cheaper prices attract better clients**. In reality, low rates attract demanding clients with tight budgets and endless revision requests.
 
 ## Shift from "Selling Hours" to "Delivering Business Outcomes"
@@ -254,14 +263,17 @@ When you tell a client your hourly rate is $50, they calculate costs. When you d
 1. Uncover the client's core business problem during discovery calls.
 2. Provide 3 tiered option packages (Basic / Pro / Premium).
 3. Set clear scope boundaries and demand a 50% upfront deposit.
-    `,
-  };
+      `,
+    };
 
-  await prisma.post.upsert({
-    where: { slug: post3Data.slug },
-    update: post3Data,
-    create: post3Data,
-  });
+    await prisma.post.upsert({
+      where: { slug: post3Data.slug },
+      update: post3Data,
+      create: post3Data,
+    });
+  } catch (err) {
+    console.warn('Post 3 seed fallback:', err);
+  }
 
   console.log('Seeding finished successfully!');
 }
