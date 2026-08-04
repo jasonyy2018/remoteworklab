@@ -15,8 +15,8 @@ export default async function AdminCategoriesPage() {
   return (
     <div className="space-y-6">
       <div className="border-b border-slate-200 pb-4">
-        <h1 className="text-2xl font-bold text-slate-900">分类管理</h1>
-        <p className="text-xs text-slate-500 mt-1">网站的核心内容板块设置</p>
+        <h1 className="text-2xl font-bold text-slate-900">Categories Management</h1>
+        <p className="text-xs text-slate-500 mt-1">Primary content topics for RemoteWorkLab</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -33,7 +33,7 @@ export default async function AdminCategoriesPage() {
               <p className="text-xs text-slate-500 font-mono">Slug: {cat.slug}</p>
               <p className="text-xs text-slate-600 leading-relaxed mt-2">{cat.description}</p>
               <div className="pt-2 text-[11px] font-semibold text-teal-600">
-                包含 {cat._count.posts} 篇文章
+                Contains {cat._count.posts} {cat._count.posts === 1 ? 'article' : 'articles'}
               </div>
             </div>
           </div>

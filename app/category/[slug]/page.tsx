@@ -16,12 +16,12 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   });
 
   if (!category) {
-    return { title: '分类未找到' };
+    return { title: 'Category Not Found' };
   }
 
   return {
-    title: `${category.name} - 专题指南`,
-    description: category.description || `查看所有属于 ${category.name} 分类的评测与文章。`,
+    title: `${category.name} - Topic Guide`,
+    description: category.description || `Browse all reviews and guides in the ${category.name} category.`,
   };
 }
 
@@ -69,7 +69,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 space-y-8">
       <div className="border-b border-slate-200 pb-6 space-y-2">
         <div className="text-xs font-semibold uppercase tracking-wider text-teal-600">
-          CATEGORY / 分类专题
+          CATEGORY TOPIC
         </div>
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{category.name}</h1>
         {category.description && (
@@ -80,7 +80,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       </div>
 
       {posts.length === 0 ? (
-        <div className="py-12 text-center text-slate-500 text-sm">该分类下暂无已发布的文章</div>
+        <div className="py-12 text-center text-slate-500 text-sm">No articles published in this category yet.</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (

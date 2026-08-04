@@ -36,30 +36,30 @@ export default async function HomePage() {
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-teal-500/30 bg-teal-500/10 px-4 py-1.5 text-xs font-semibold text-teal-300 backdrop-blur-md">
               <Sparkles className="h-4 w-4 text-teal-400" />
-              独立透明 · 深度体验 · 专注效率产出
+              Independent · Hands-On Tested · Productivity Focused
             </div>
 
             <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-white leading-tight">
-              打磨你的 <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">远程办公武器库</span>
+              Master Your <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">Remote Work Stack</span>
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              针对自由职业者与远程工作者的独立效率工具测评、人体工学硬件指南与无痛接单报价策略，助你打造极致居家工作流。
+              Unbiased software reviews, ergonomic hardware buyer guides, and freelance growth strategies designed for digital nomads and home-based professionals.
             </p>
 
             {/* Feature Badges */}
             <div className="pt-4 flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-slate-400">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-teal-400" />
-                真实体验独立评测
+                100% Independent Reviews
               </div>
               <div className="flex items-center gap-1.5">
                 <Zap className="h-4 w-4 text-teal-400" />
-                科学实测无废话
+                No Fluff, Data Driven
               </div>
               <div className="flex items-center gap-1.5">
                 <Laptop className="h-4 w-4 text-teal-400" />
-                SaaS & 硬件双重覆盖
+                Hardware & SaaS Covered
               </div>
             </div>
           </div>
@@ -74,9 +74,9 @@ export default async function HomePage() {
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <span className="h-6 w-1.5 rounded-full bg-teal-600"></span>
-                重磅精选首发文章
+                Featured Lead Article
               </h2>
-              <span className="text-xs font-semibold text-teal-600">Featured Article</span>
+              <span className="text-xs font-semibold text-teal-600">Editor's Pick</span>
             </div>
             <PostCard post={featuredPost} featured={true} />
           </section>
@@ -85,8 +85,8 @@ export default async function HomePage() {
         {/* Category Grid Section */}
         <section className="space-y-6">
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-slate-900">按主题探索精选专题</h2>
-            <p className="text-xs text-slate-500">挑选你当前最关注的远程办公领域</p>
+            <h2 className="text-2xl font-bold text-slate-900">Explore Topics by Category</h2>
+            <p className="text-xs text-slate-500">Discover hand-picked resources for your remote work journey</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -108,7 +108,7 @@ export default async function HomePage() {
                   </p>
                 </div>
                 <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs font-semibold text-slate-400 group-hover:text-teal-600">
-                  <span>{cat._count.posts} 篇文章</span>
+                  <span>{cat._count.posts} {cat._count.posts === 1 ? 'Article' : 'Articles'}</span>
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
@@ -122,13 +122,13 @@ export default async function HomePage() {
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <span className="h-6 w-1.5 rounded-full bg-teal-600"></span>
-                最新发布指南与评测
+                Latest Reviews & Guides
               </h2>
               <Link
                 href="/blog"
                 className="flex items-center gap-1 text-xs font-semibold text-teal-600 hover:text-teal-700"
               >
-                查看全部文章 ({posts.length})
+                View All Articles ({posts.length})
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>

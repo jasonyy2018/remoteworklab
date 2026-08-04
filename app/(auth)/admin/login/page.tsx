@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
     });
 
     if (res?.error) {
-      setError('邮箱或密码不正确，请重新检查！');
+      setError('Invalid email or password. Please try again.');
       setLoading(false);
     } else {
       router.push('/admin');
@@ -39,9 +39,9 @@ export default function AdminLoginPage() {
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-600 text-white shadow-lg shadow-teal-600/30">
             <Laptop className="h-6 w-6" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-white">管理员后台登录</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-white">Admin Dashboard Login</h2>
           <p className="text-xs text-slate-400">
-            请使用预设的管理员凭据登录 RemoteWorkLab 控制台
+            Log in with your administrator credentials to manage RemoteWorkLab
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">管理员邮箱</label>
+            <label className="block text-xs font-medium text-slate-300 mb-1">Admin Email</label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-3 h-4 w-4 text-slate-500" />
               <input
@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">登录密码</label>
+            <label className="block text-xs font-medium text-slate-300 mb-1">Password</label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-3 h-4 w-4 text-slate-500" />
               <input
@@ -87,12 +87,12 @@ export default function AdminLoginPage() {
             disabled={loading}
             className="flex w-full items-center justify-center rounded-xl bg-teal-600 py-3 text-xs font-bold text-white shadow-lg shadow-teal-600/20 hover:bg-teal-500 transition-colors disabled:opacity-50"
           >
-            {loading ? '正在登录中...' : '立即登录'}
+            {loading ? 'Authenticating...' : 'Sign In'}
           </button>
         </form>
 
         <div className="text-center text-[11px] text-slate-500 border-t border-slate-900 pt-4">
-          默认账号可在项目环境配置文件 (.env) 中修改设置
+          Default credentials can be configured in your environment file (.env)
         </div>
       </div>
     </div>

@@ -7,16 +7,16 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatDate(date: Date | string): string {
   const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
+  return d.toLocaleDateString('en-US', {
+    month: 'short',
     day: 'numeric',
+    year: 'numeric',
   });
 }
 
 export function calculateReadingTime(text: string): number {
-  const wordsPerMinute = 250;
-  const wordCount = text.trim().length;
+  const wordsPerMinute = 220;
+  const wordCount = text.trim().split(/\s+/).length;
   const readTime = Math.ceil(wordCount / wordsPerMinute);
   return readTime < 1 ? 1 : readTime;
 }

@@ -5,7 +5,7 @@ interface AdPlaceholderProps {
 }
 
 export default function AdPlaceholder({
-  slotName = 'Google AdSense 广告位',
+  slotName = 'Google AdSense Placement',
   variant = 'in-article',
   className = '',
 }: AdPlaceholderProps) {
@@ -24,7 +24,7 @@ export default function AdPlaceholder({
       </span>
       <span className="mt-1 font-medium text-slate-500">{slotName}</span>
       <span className="text-[10px] text-slate-400 mt-0.5">
-        (已预留 Google AdSense 组件卡位，后续直接替换为真实的 adsbygoogle 逻辑)
+        (Reserved Google AdSense ad slot. Replace with adsbygoogle script code)
       </span>
     </div>
   );

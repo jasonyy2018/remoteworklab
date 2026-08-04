@@ -13,9 +13,9 @@ export default async function AdminProductsPage() {
   return (
     <div className="space-y-6">
       <div className="border-b border-slate-200 pb-4">
-        <h1 className="text-2xl font-bold text-slate-900">联盟产品库管理</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Affiliate Products Library</h1>
         <p className="text-xs text-slate-500 mt-1">
-          在此管理文章中展示的评测产品、评分及联盟链接（含 rel="nofollow sponsored" 属性）
+          Manage product ratings, pros & cons, prices, and affiliate links (with rel="nofollow sponsored" attributes)
         </p>
       </div>
 
@@ -48,11 +48,11 @@ export default async function AdminProductsPage() {
                 </div>
 
                 <p className="text-xs text-slate-600 leading-relaxed">{prod.description}</p>
-                <div className="text-xs font-semibold text-teal-700">价格：{prod.price}</div>
+                <div className="text-xs font-semibold text-teal-700">Price: {prod.price}</div>
 
                 {prod.post && (
                   <div className="text-[11px] text-slate-500 border-t border-slate-100 pt-2">
-                    关联文章：<span className="font-semibold text-slate-800">{prod.post.title}</span>
+                    Linked Article: <span className="font-semibold text-slate-800">{prod.post.title}</span>
                   </div>
                 )}
               </div>
@@ -64,7 +64,7 @@ export default async function AdminProductsPage() {
                   rel="nofollow sponsored"
                   className="flex items-center justify-center gap-1.5 w-full rounded-xl bg-slate-900 py-2 text-xs font-semibold text-white hover:bg-teal-600 transition-colors"
                 >
-                  测试联盟链接
+                  Test Affiliate Link
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               </div>

@@ -7,25 +7,21 @@ export async function POST(req: Request) {
 
     if (!name || !email || !message) {
       return NextResponse.json(
-        { error: '请填写所有必填字段' },
+        { error: 'Please fill in all required fields.' },
         { status: 400 }
       );
     }
 
-    // Console log contact submission (SMTP or Resend hook)
-    console.log(`[Contact Form Received] Name: ${name}, Email: ${email}, Message: ${message}`);
-
-    // Standard SMTP simulation/handling using configured environment variables
-    // In production, nodemailer.transporter.sendMail() or resend.emails.send() can be called here.
+    console.log(`[Contact Submission] Name: ${name}, Email: ${email}, Message: ${message}`);
 
     return NextResponse.json({
       success: true,
-      message: '感谢您的留言！我们已收到您的信息，会尽快与您联系。',
+      message: 'Thank you! Your message has been received. We will get back to you shortly.',
     });
   } catch (error) {
     console.error('Contact form error:', error);
     return NextResponse.json(
-      { error: '提交失败，请稍后重试。' },
+      { error: 'Submission failed. Please try again later.' },
       { status: 500 }
     );
   }

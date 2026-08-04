@@ -25,7 +25,7 @@ export default function FAQAccordion({ faqs }: FAQAccordionProps) {
     <div className="my-10 rounded-2xl border border-slate-200 bg-slate-50/50 p-6 shadow-xs">
       <div className="flex items-center gap-2 mb-4 border-b border-slate-200 pb-3">
         <HelpCircle className="h-5 w-5 text-teal-600" />
-        <h2 className="text-lg font-bold text-slate-900">常见问题解答 (FAQ)</h2>
+        <h2 className="text-lg font-bold text-slate-900">Frequently Asked Questions (FAQ)</h2>
       </div>
 
       <div className="space-y-3">

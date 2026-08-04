@@ -21,7 +21,7 @@ export default function MDXContent({ content }: MDXContentProps) {
               <span className="my-6 block overflow-hidden rounded-xl border border-slate-200">
                 <Image
                   src={src}
-                  alt={alt || '文章插图'}
+                  alt={alt || 'Article Image'}
                   width={1200}
                   height={675}
                   className="w-full object-cover"

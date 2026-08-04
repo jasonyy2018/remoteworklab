@@ -9,10 +9,10 @@ export default function AdminNav() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: '控制台概览', href: '/admin', icon: LayoutDashboard },
-    { name: '文章管理', href: '/admin/posts', icon: FileText },
-    { name: '分类管理', href: '/admin/categories', icon: FolderTree },
-    { name: '联盟产品库', href: '/admin/products', icon: ShoppingBag },
+    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { name: 'Articles', href: '/admin/posts', icon: FileText },
+    { name: 'Categories', href: '/admin/categories', icon: FolderTree },
+    { name: 'Affiliate Products', href: '/admin/products', icon: ShoppingBag },
   ];
 
   return (
@@ -20,7 +20,7 @@ export default function AdminNav() {
       <div className="space-y-6">
         <div className="flex items-center gap-2 text-white font-bold text-lg border-b border-slate-800 pb-4">
           <span className="h-3 w-3 rounded-full bg-teal-500"></span>
-          RemoteWorkLab 管理后台
+          RemoteWorkLab Admin
         </div>
 
         <nav className="space-y-1">
@@ -52,14 +52,14 @@ export default function AdminNav() {
           className="flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition-colors"
         >
           <Globe className="h-4 w-4" />
-          返回前台网站
+          View Live Website
         </Link>
         <button
           onClick={() => signOut({ callbackUrl: '/admin/login' })}
           className="flex w-full items-center gap-2 text-xs font-medium text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-950/40 transition-colors"
         >
           <LogOut className="h-4 w-4" />
-          退出登录
+          Sign Out
         </button>
       </div>
     </aside>

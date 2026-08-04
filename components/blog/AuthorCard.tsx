@@ -25,7 +25,7 @@ export default function AuthorCard({ author }: AuthorProps) {
           <h3 className="font-bold text-slate-900">{author.name}</h3>
           <span className="inline-flex items-center gap-1 rounded-full bg-teal-100 px-2 py-0.5 text-[10px] font-semibold text-teal-800">
             <Award className="h-3 w-3" />
-            认证测评专家
+            Verified Reviewer
           </span>
         </div>
         <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">

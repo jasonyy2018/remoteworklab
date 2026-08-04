@@ -3,10 +3,10 @@ import { Laptop, Sparkles } from 'lucide-react';
 
 export default function Header() {
   const categories = [
-    { name: '软件评测', href: '/category/software-reviews' },
-    { name: '居家办公搭建', href: '/category/home-office-setup' },
-    { name: '效率指南', href: '/category/productivity-tips' },
-    { name: '自由职业避坑', href: '/category/freelance-guide' },
+    { name: 'Software Reviews', href: '/category/software-reviews' },
+    { name: 'Home Office Setup', href: '/category/home-office-setup' },
+    { name: 'Productivity Tips', href: '/category/productivity-tips' },
+    { name: 'Freelance Guide', href: '/category/freelance-guide' },
   ];
 
   return (
@@ -21,7 +21,7 @@ export default function Header() {
               RemoteWork<span className="text-teal-600">Lab</span>
             </span>
             <span className="text-[10px] text-slate-500 font-medium tracking-wide">
-              远程办公与效率装备指南
+              Productivity & Home Office Gear
             </span>
           </div>
         </Link>
@@ -38,10 +38,10 @@ export default function Header() {
             </Link>
           ))}
           <Link href="/about" className="hover:text-teal-600 transition-colors">
-            关于我们
+            About
           </Link>
           <Link href="/contact" className="hover:text-teal-600 transition-colors">
-            联系我们
+            Contact
           </Link>
         </nav>
 
@@ -52,7 +52,7 @@ export default function Header() {
             className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-teal-600 transition-colors"
           >
             <Sparkles className="h-3.5 w-3.5 text-teal-400" />
-            探索所有文章
+            Explore All Guides
           </Link>
         </div>
       </div>

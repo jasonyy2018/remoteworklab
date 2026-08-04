@@ -67,7 +67,7 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
             </span>
             <span className="flex items-center gap-1">
               <Clock className="h-3.5 w-3.5 text-slate-400" />
-              约 {readTime} 分钟阅读
+              {readTime} min read
             </span>
           </div>
 
@@ -104,7 +104,7 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
             href={`/blog/${post.slug}`}
             className="flex items-center gap-1 text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors"
           >
-            阅读全文
+            Read Article
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

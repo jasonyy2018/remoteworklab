@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   });
 
   if (!post) {
-    return { title: '文章未找到' };
+    return { title: 'Article Not Found' };
   }
 
   const title = post.seoTitle || post.title;
@@ -72,7 +72,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
     notFound();
   }
 
-  // Related posts (3 random/latest posts in same category)
+  // Related posts (3 posts in same category)
   const relatedPosts = await prisma.post.findMany({
     where: {
       categoryId: post.categoryId,
@@ -90,7 +90,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
   const postUrl = `${baseUrl}/blog/${post.slug}`;
 
   const breadcrumbs = [
-    { name: '首页', item: baseUrl },
+    { name: 'Home', item: baseUrl },
     { name: post.category.name, item: `${baseUrl}/category/${post.category.slug}` },
     { name: post.title, item: postUrl },
   ];
@@ -115,7 +115,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
         
         {/* Breadcrumb Navigation */}
         <nav className="mb-6 flex items-center gap-2 text-xs text-slate-500">
-          <Link href="/" className="hover:text-teal-600">首页</Link>
+          <Link href="/" className="hover:text-teal-600">Home</Link>
           <ChevronRight className="h-3 w-3" />
           <Link href={`/category/${post.category.slug}`} className="hover:text-teal-600">
             {post.category.name}
@@ -149,7 +149,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Clock className="h-4 w-4 text-slate-400" />
-                  {readTime} 分钟阅读
+                  {readTime} min read
                 </span>
               </div>
             </header>
@@ -172,7 +172,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
             </div>
 
             {/* AdSense In-Article Slot 1 */}
-            <AdPlaceholder slotName="文章前段广告位" variant="in-article" />
+            <AdPlaceholder slotName="In-Article Ad Placement #1" variant="in-article" />
 
             {/* Markdown Content */}
             <MDXContent content={post.content} />
@@ -183,7 +183,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
             )}
 
             {/* AdSense In-Article Slot 2 */}
-            <AdPlaceholder slotName="文章末尾广告位" variant="in-article" />
+            <AdPlaceholder slotName="In-Article Ad Placement #2" variant="in-article" />
 
             {/* FAQ Accordion Component */}
             {faqs.length > 0 && <FAQAccordion faqs={faqs} />}
@@ -200,15 +200,15 @@ export default async function PostDetailPage({ params }: PostPageProps) {
             {/* Sidebar Author Info Box */}
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
               <h3 className="font-bold text-slate-900 border-b border-slate-100 pb-3 text-sm">
-                关于本站与作者
+                About RemoteWorkLab
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                RemoteWorkLab 旨在为全球远程工作者与自由职业者挑选最顶级的效率套件。每一篇文章均经过数周实操体验。
+                RemoteWorkLab tests top-tier productivity tools and home office equipment for remote professionals, digital nomads, and independent creators.
               </p>
             </div>
 
             {/* Sidebar AdSense Slot */}
-            <AdPlaceholder slotName="侧边栏固定广告位" variant="sidebar" />
+            <AdPlaceholder slotName="Sidebar Sticky Ad Placement" variant="sidebar" />
           </aside>
 
         </div>

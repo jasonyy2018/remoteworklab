@@ -12,8 +12,8 @@ export default async function NewPostPage() {
   return (
     <div className="space-y-6">
       <div className="border-b border-slate-200 pb-4">
-        <h1 className="text-2xl font-bold text-slate-900">撰写并发布新文章</h1>
-        <p className="text-xs text-slate-500 mt-1">支持 Markdown 语法与自定义 SEO 元数据</p>
+        <h1 className="text-2xl font-bold text-slate-900">Create & Publish New Article</h1>
+        <p className="text-xs text-slate-500 mt-1">Markdown formatting with custom SEO metadata support</p>
       </div>
 
       <PostForm categories={categories} authors={authors} />
