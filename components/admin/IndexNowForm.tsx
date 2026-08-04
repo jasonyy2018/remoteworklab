@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Send, CheckCircle2, AlertCircle, RefreshCw, FileText, Link2, Sparkles, Clock, Layers } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, RefreshCw, FileText, Link2, Sparkles, Clock, Layers, Globe } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
 interface PublishedPost {
@@ -23,15 +23,16 @@ interface IndexNowFormProps {
   publishedPosts: PublishedPost[];
   categories: CategoryItem[];
   recentlyUpdatedSlugs: string[];
-  baseUrl: string;
+  initialBaseUrl: string;
 }
 
 export default function IndexNowForm({
   publishedPosts,
   categories,
   recentlyUpdatedSlugs,
-  baseUrl,
+  initialBaseUrl,
 }: IndexNowFormProps) {
+  const [baseUrl, setBaseUrl] = useState<string>(initialBaseUrl);
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
   const [selectedCategorySlugs, setSelectedCategorySlugs] = useState<string[]>([]);
   const [includeHomepage, setIncludeHomepage] = useState<boolean>(true);
@@ -41,6 +42,16 @@ export default function IndexNowForm({
   const [resultData, setResultData] = useState<any>(null);
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Client-side domain auto-detection
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.host;
+      if (!host.includes('localhost') && !host.includes('127.0.0.1')) {
+        setBaseUrl(`${window.location.protocol}//${host}`);
+      }
+    }
+  }, []);
+
   // Auto-select recently updated URLs on initial load
   useEffect(() => {
     if (recentlyUpdatedSlugs.length > 0) {
@@ -49,6 +60,12 @@ export default function IndexNowForm({
       setSelectedSlugs([publishedPosts[0].slug]);
     }
   }, [recentlyUpdatedSlugs, publishedPosts]);
+
+  const cleanBaseUrl = (url: string) => {
+    return url.replace(/\/+$/, '');
+  };
+
+  const currentBaseUrl = cleanBaseUrl(baseUrl);
 
   const toggleSelectPost = (slug: string) => {
     if (selectedSlugs.includes(slug)) {
@@ -85,15 +102,15 @@ export default function IndexNowForm({
     const urls: string[] = [];
 
     if (includeHomepage) {
-      urls.push(baseUrl);
+      urls.push(currentBaseUrl);
     }
 
     selectedCategorySlugs.forEach((catSlug) => {
-      urls.push(`${baseUrl}/category/${catSlug}`);
+      urls.push(`${currentBaseUrl}/category/${catSlug}`);
     });
 
     selectedSlugs.forEach((slug) => {
-      urls.push(`${baseUrl}/blog/${slug}`);
+      urls.push(`${currentBaseUrl}/blog/${slug}`);
     });
 
     const manualUrls = customUrls
@@ -144,6 +161,24 @@ export default function IndexNowForm({
 
   return (
     <form onSubmit={handleSubmission} className="space-y-6">
+
+      {/* Target Domain Input Setting */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <Globe className="h-5 w-5 text-teal-600 shrink-0" />
+          <div>
+            <label className="block text-xs font-bold text-slate-900">Target Production Domain URL</label>
+            <span className="text-[11px] text-slate-500">Domain used for indexation links & IndexNow API host</span>
+          </div>
+        </div>
+        <input
+          type="text"
+          value={baseUrl}
+          onChange={(e) => setBaseUrl(e.target.value)}
+          placeholder="https://remoteworklab.com"
+          className="w-full sm:w-80 rounded-xl border border-slate-300 px-3.5 py-2 text-xs font-mono font-bold text-slate-900 focus:border-teal-500 focus:outline-none"
+        />
+      </div>
       
       {/* Auto-Detection Smart Banner */}
       <div className="rounded-2xl border border-teal-200 bg-gradient-to-r from-teal-50 to-emerald-50 p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -275,7 +310,7 @@ export default function IndexNowForm({
                         </span>
                       )}
                     </div>
-                    <div className="text-[10px] text-slate-500 font-mono">/blog/{post.slug}</div>
+                    <div className="text-[10px] text-slate-500 font-mono">{currentBaseUrl}/blog/{post.slug}</div>
                   </div>
                 </div>
                 <div className="text-right text-[11px] text-slate-400">
@@ -305,7 +340,7 @@ export default function IndexNowForm({
             />
             <div>
               <div className="font-bold text-slate-900">Homepage</div>
-              <div className="text-[10px] text-slate-500 font-mono">{baseUrl}/</div>
+              <div className="text-[10px] text-slate-500 font-mono">{currentBaseUrl}/</div>
             </div>
           </label>
 
@@ -326,7 +361,7 @@ export default function IndexNowForm({
                 />
                 <div>
                   <div className="font-bold text-slate-900">{cat.name} Hub</div>
-                  <div className="text-[10px] text-slate-500 font-mono">/category/{cat.slug}</div>
+                  <div className="text-[10px] text-slate-500 font-mono">{currentBaseUrl}/category/{cat.slug}</div>
                 </div>
               </label>
             );
@@ -347,7 +382,7 @@ export default function IndexNowForm({
           rows={3}
           value={customUrls}
           onChange={(e) => setCustomUrls(e.target.value)}
-          placeholder={`https://${baseUrl.replace(/^https?:\/\//, '')}/about\nhttps://${baseUrl.replace(/^https?:\/\//, '')}/contact`}
+          placeholder={`${currentBaseUrl}/about\n${currentBaseUrl}/contact`}
           className="w-full rounded-xl border border-slate-300 p-3 text-xs font-mono text-slate-900 focus:border-teal-500 focus:outline-none"
         />
       </div>

@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import IndexNowForm from '@/components/admin/IndexNowForm';
-import { Zap, Key, ExternalLink, Sparkles } from 'lucide-react';
+import { Zap, Key, ExternalLink } from 'lucide-react';
+import { headers } from 'next/headers';
 
 export const revalidate = 0;
 
@@ -26,9 +27,18 @@ export default async function AdminIndexNowPage() {
     },
   });
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://remoteworklab.com';
+  // Resolve actual host from HTTP headers or environment
+  const headersList = await headers();
+  const rawHost = headersList.get('x-forwarded-host') || headersList.get('host') || 'remoteworklab.com';
+  const proto = headersList.get('x-forwarded-proto') || 'https';
+
+  // If running locally or on localhost, fallback to official domain, otherwise use request domain
+  const isLocalhost = rawHost.includes('localhost') || rawHost.includes('127.0.0.1');
+  const defaultDomain = isLocalhost ? 'remoteworklab.com' : rawHost;
+  const initialBaseUrl = isLocalhost ? 'https://remoteworklab.com' : `${proto}://${rawHost}`;
+
   const key = '623afdf3999e4bcda312762da4ceab56';
-  const keyUrl = `${baseUrl}/${key}.txt`;
+  const keyUrl = `${initialBaseUrl}/${key}.txt`;
 
   // Filter recently updated posts (last 7 days)
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -56,7 +66,7 @@ export default async function AdminIndexNowPage() {
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-3">
         <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
           <Key className="h-4 w-4 text-teal-600" />
-          IndexNow Key & Verification Status
+          IndexNow Key & Domain Status
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
@@ -78,10 +88,8 @@ export default async function AdminIndexNowPage() {
           </div>
 
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span className="text-slate-500 font-medium block">Status</span>
-            <span className="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full text-[10px] mt-0.5">
-              ● Active & Configured
-            </span>
+            <span className="text-slate-500 font-medium block">Target Domain</span>
+            <span className="font-mono font-bold text-teal-700">{defaultDomain}</span>
           </div>
         </div>
       </div>
@@ -91,7 +99,7 @@ export default async function AdminIndexNowPage() {
         publishedPosts={publishedPosts}
         categories={categories}
         recentlyUpdatedSlugs={recentlyUpdatedSlugs}
-        baseUrl={baseUrl}
+        initialBaseUrl={initialBaseUrl}
       />
     </div>
   );
