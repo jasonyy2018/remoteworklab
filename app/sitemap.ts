@@ -12,30 +12,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1.0 : 0.8,
   }));
 
-  // 2. Dynamic Post URLs
-  const posts = await prisma.post.findMany({
-    where: { status: 'published' },
-    select: { slug: true, updatedAt: true },
-  });
+  try {
+    // 2. Dynamic Post URLs
+    const posts = await prisma.post.findMany({
+      where: { status: 'published' },
+      select: { slug: true, updatedAt: true },
+    });
 
-  const postUrls = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.updatedAt,
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
+    const postUrls = posts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: post.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    }));
 
-  // 3. Dynamic Category URLs
-  const categories = await prisma.category.findMany({
-    select: { slug: true, updatedAt: true },
-  });
+    // 3. Dynamic Category URLs
+    const categories = await prisma.category.findMany({
+      select: { slug: true, updatedAt: true },
+    });
 
-  const categoryUrls = categories.map((cat) => ({
-    url: `${baseUrl}/category/${cat.slug}`,
-    lastModified: cat.updatedAt,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }));
+    const categoryUrls = categories.map((cat) => ({
+      url: `${baseUrl}/category/${cat.slug}`,
+      lastModified: cat.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }));
 
-  return [...routes, ...postUrls, ...categoryUrls];
+    return [...routes, ...postUrls, ...categoryUrls];
+  } catch (error) {
+    console.warn('Sitemap dynamic fetch fallback:', error);
+    return routes;
+  }
 }

@@ -17,8 +17,10 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV DATABASE_URL="file:./dev.db"
 
 RUN npx prisma generate
+RUN npx prisma db push
 RUN npm run build
 
 # Step 3. Production runner stage

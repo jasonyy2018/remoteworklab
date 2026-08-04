@@ -1,6 +1,6 @@
 # RemoteWorkLab - 远程办公与自由职业效率工具评测博客系统
 
-这是一个基于 **Next.js Latest (App Router)** + **TypeScript** + **SQLite (Prisma ORM)** + **Tailwind CSS** 构建的高性能内容型博客与产品评测网站。专门为通过 SEO 获取自然流量、并通过 **Amazon 联盟链接、软件联盟链接与 Google AdSense 广告**变现而设计。
+这是一个基于 **Next.js 16.3 (App Router & Turbopack)** + **TypeScript** + **SQLite (Prisma ORM)** + **Tailwind CSS** 构建的高性能内容型博客与产品评测网站。专门为通过 SEO 获取自然流量、并通过 **Amazon 联盟链接、软件联盟链接与 Google AdSense 广告**变现而设计。
 
 ---
 
