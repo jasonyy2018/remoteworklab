@@ -60,6 +60,8 @@ model Post {
   publishedAt     DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
   isReview        Boolean            @default(false)
+  testingHours    Int                @default(25)          // E-E-A-T testing hours metric
+  quickVerdict    String?            // PCMag "Bottom Line" verdict summary
   faqsJson        String?            // JSON string for FAQ list [{question, answer}]
   
   categoryId      String
@@ -73,19 +75,21 @@ model Post {
 }
 
 model AffiliateProduct {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  imageUrl    String
+  id           String   @id @default(cuid())
+  name         String
+  description  String
+  imageUrl     String
   affiliateUrl String
-  price       String
-  prosJson    String   // JSON string of pros array ["pro1", "pro2"]
-  consJson    String   // JSON string of cons array ["con1", "con2"]
-  rating      Float    @default(5.0)
+  price        String
+  badge        String?  // Wirecutter "Editor's Choice", "Best Value", "Budget Pick"
+  bestFor      String?  // "Best for Solo Freelancers", "Best for Agencies"
+  prosJson     String   // JSON string of pros array ["pro1", "pro2"]
+  consJson     String   // JSON string of cons array ["cons1", "cons2"]
+  rating       Float    @default(5.0)
   
-  postId      String?
-  post        Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+  postId       String?
+  post         Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

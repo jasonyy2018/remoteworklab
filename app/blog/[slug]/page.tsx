@@ -9,6 +9,7 @@ import AffiliateDisclaimer from '@/components/blog/AffiliateDisclaimer';
 import AuthorCard from '@/components/blog/AuthorCard';
 import MDXContent from '@/components/blog/MDXContent';
 import ProductComparison from '@/components/blog/ProductComparison';
+import QuickVerdict from '@/components/blog/QuickVerdict';
 import FAQAccordion from '@/components/blog/FAQAccordion';
 import RelatedPosts from '@/components/blog/RelatedPosts';
 import AdPlaceholder from '@/components/common/AdPlaceholder';
@@ -64,7 +65,9 @@ export default async function PostDetailPage({ params }: PostPageProps) {
     include: {
       category: true,
       author: true,
-      products: true,
+      products: {
+        orderBy: { rating: 'desc' },
+      },
     },
   });
 
@@ -88,6 +91,7 @@ export default async function PostDetailPage({ params }: PostPageProps) {
   const faqs = post.faqsJson ? JSON.parse(post.faqsJson) : [];
   const baseUrl = process.env.NEXTAUTH_URL || 'https://remoteworklab.com';
   const postUrl = `${baseUrl}/blog/${post.slug}`;
+  const topProduct = post.products && post.products.length > 0 ? (post.products[0] as any) : undefined;
 
   const breadcrumbs = [
     { name: 'Home', item: baseUrl },
@@ -156,6 +160,13 @@ export default async function PostDetailPage({ params }: PostPageProps) {
 
             {/* Affiliate Disclaimer Banner */}
             <AffiliateDisclaimer />
+
+            {/* PCMag & Wirecutter Style Quick Verdict Box */}
+            <QuickVerdict
+              testingHours={post.testingHours}
+              quickVerdict={post.quickVerdict}
+              topProduct={topProduct}
+            />
 
             {/* Author Card Header */}
             <AuthorCard author={post.author} />
